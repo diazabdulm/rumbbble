@@ -1,0 +1,22 @@
+{
+  "name": "dribbble",
+  "version": "1.0.0",
+  "description": "Dribbble Clone built with MongoDB, ExpressJS, React, and Node Technologies",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diazabdulm/dribbble.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diazabdulm/dribbble/issues"
+  },
+  "homepage": "https://github.com/diazabdulm/dribbble#readme",
+  "devDependencies": {
+    "concurrently": "^5.2.0"
+  }
+}
