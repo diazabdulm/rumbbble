@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 import styled from "styled-components";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
-import { ChatFill, HeartFill, Heart } from "react-bootstrap-icons";
+import { ChatFill, HeartFill } from "react-bootstrap-icons";
 const BORDER_RADIUS = 8;
 
 const CardOverlay = styled(Card.ImgOverlay)`

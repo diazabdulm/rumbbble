@@ -1,13 +1,6 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Button from "react-bootstrap/Button";
-import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Card from "react-bootstrap/Card";
-import CardColumns from "react-bootstrap/CardColumns";
-import CardDeck from "react-bootstrap/CardDeck";
 
 import Introduction from "../components/Introduction";
 import PostPreview from "../components/PostPreview";

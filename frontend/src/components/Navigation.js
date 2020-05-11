@@ -4,8 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-
-import { ReactComponent as Logo } from "../assets/logo.svg";
+import Image from "react-bootstrap/Image";
 
 const NavigationContainer = styled(Navbar)`
   box-shadow: inset 0px -1px 0px #f3f3f4;
@@ -22,12 +21,17 @@ const NavigationContainer = styled(Navbar)`
   }
 `;
 
+const Logo = styled(Image)`
+  width: 6rem;
+  height: auto;
+`;
+
 export default function Navigation() {
   return (
     <NavigationContainer expand="lg">
       <Container>
         <Navbar.Brand className="mr-auto" href="/">
-          <Logo />
+          <Logo src={require("../assets/logo.png")} alt="logo" />
         </Navbar.Brand>
         <Nav>
           <Nav.Link href="/login">Sign in</Nav.Link>
