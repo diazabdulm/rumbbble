@@ -49,7 +49,7 @@ export default function Introduction() {
     <IntroJumbotron fluid>
       <IntroContainer className="d-flex align-items-center text-center text-lg-left">
         <div id="text-container">
-          <h1 className="display-4 font-weight-bold">
+          <h1 className="font-weight-bold">
             Discover the world's top developers & projects
           </h1>
           <p className="lead font-weight-normal">
