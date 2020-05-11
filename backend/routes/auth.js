@@ -11,4 +11,9 @@ authRouter.get(
   }
 );
 
+authRouter.get("/logout", (request, response) => {
+  request.logout();
+  response.redirect("/");
+});
+
 module.exports = authRouter;
