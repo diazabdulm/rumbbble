@@ -17,7 +17,7 @@ const LoginContainer = styled.div`
   margin: auto;
 `;
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <Container fluid>
       <Row>
@@ -32,10 +32,19 @@ export default function Login() {
         </Sidebar>
         <div className="col-lg-7 vh-100 d-flex">
           <LoginContainer className="">
-            <Image src={require("../assets/logo.png")} width="125" className="mb-5" />
-            <h3 className="mb-4 font-weight-bold">Sign in to Rumbbble</h3>
-            <Button variant="dark" block>
-              Sign in with Github
+            <Image
+              src={require("../assets/logo.png")}
+              width="125"
+              className="d-block d-lg-none d-xl-none mb-5"
+            />
+            <h3 className="mb-4 font-weight-bold">Continue to Rumbbble</h3>
+            <Button variant="dark" block href="/auth/github">
+              <Image
+                className="mr-2"
+                src={require("../assets/github-logo.png")}
+                width="18"
+              />
+              Continue with Github
             </Button>
           </LoginContainer>
         </div>

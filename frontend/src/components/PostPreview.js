@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import { ChatFill, HeartFill } from "react-bootstrap-icons";
+
 const BORDER_RADIUS = 8;
 
 const CardOverlay = styled(Card.ImgOverlay)`

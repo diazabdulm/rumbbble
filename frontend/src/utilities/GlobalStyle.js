@@ -41,4 +41,21 @@ export const GlobalStyle = createGlobalStyle`
   .card-img-overlay {
     padding: 0.2rem 1.15rem;
   }
+
+  .dropdown-menu {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0px 10px 50px rgba(0,0,0,0.1);
+    padding: 30px 0;
+    width: 245px;
+  }
+
+  .dropdown-item {
+    padding: 7px 32px;
+    color: #6e6d7a;
+  }
+
+  .navbar {
+    height: 80px;
+  }
 `;
