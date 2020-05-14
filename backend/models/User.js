@@ -6,6 +6,7 @@ const User = new Schema({
   biography: String,
   location: String,
   githubID: Number,
+  githubUsername: String,
 });
 
 model("users", User);

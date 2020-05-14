@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+import { fetchProjects } from "./projectsSlice";
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -8,24 +10,24 @@ export const authSlice = createSlice({
     error: "",
   },
   reducers: {
-    signInSuccess: (state, action) => {
+    setUserSuccess: (state, action) => {
       state.currentUser = action.payload;
     },
-    signInFailure: (state, action) => {
+    setUserFailure: (state, action) => {
       state.error = action.payload;
     },
   },
 });
 
-export const { signInSuccess, signInFailure } = authSlice.actions;
+export const { setUserSuccess, setUserFailure } = authSlice.actions;
 
 export const fetchUser = () => async (dispatch) => {
   try {
-    const response = await axios.get("/auth/current-user");
-    const data = await response.data;
-    dispatch(signInSuccess(data));
+    const { data: user } = await axios.get("/auth/current-user");
+    dispatch(setUserSuccess(user));
+    if (user) dispatch(fetchProjects());
   } catch (error) {
-    dispatch(signInFailure(error));
+    dispatch(setUserFailure(error));
   }
 };
 

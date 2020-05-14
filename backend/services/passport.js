@@ -24,6 +24,7 @@ passport.use(
       {
         _json: {
           id: githubID,
+          login: githubUsername,
           name,
           location,
           avatar_url: picture,
@@ -42,6 +43,7 @@ passport.use(
             picture,
             biography,
             githubID,
+            githubUsername,
           }).save();
           return done(null, newUser);
         } catch (error) {

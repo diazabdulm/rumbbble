@@ -33,7 +33,7 @@ const CardOverlay = styled(Card.ImgOverlay)`
   );
 `;
 
-const CardContainer = styled(Card)`
+const CardImageContainer = styled.div`
   border-radius: ${BORDER_RADIUS}px;
 
   &:hover ${CardOverlay} {
@@ -43,6 +43,9 @@ const CardContainer = styled(Card)`
 
 const CardImage = styled(Card.Img)`
   border-radius: ${BORDER_RADIUS}px;
+  height: 18vw;
+  min-height: 270px;
+  object-fit: cover;
 `;
 
 const ProfileImage = styled(Image)`
@@ -54,27 +57,23 @@ const ButtonAction = styled(Button)`
   color: #9e9ea7;
 `;
 
-export default function PostPreview({ ...restProps }) {
+export default function PostPreview({
+  title,
+  likes,
+  author: { name, picture },
+  image,
+}) {
   return (
-    <div>
-      <CardContainer className="border-0" {...restProps}>
-        <CardImage
-          className="img-fluid"
-          variant="top"
-          src="https://cdn.dribbble.com/users/674925/screenshots/11357243/media/fda65658bba91fc8e3b12da571dacb6a.png"
-        />
+    <Card className="border-0">
+      <CardImageContainer className="position-relative">
+        <CardImage className="img-fluid" variant="top" src={image} />
         <CardOverlay className="d-flex align-items-end">
-          <Card.Title className="text-truncate text-white">
-            Webisomania
-          </Card.Title>
+          <Card.Title className="text-truncate text-white">{title}</Card.Title>
         </CardOverlay>
-      </CardContainer>
-      <div id="attribution" className="d-flex align-items-center pt-2">
-        <ProfileImage
-          roundedCircle
-          src="https://cdn.dribbble.com/users/1998175/avatars/normal/af46ac7b92eb85f76f5a3fe4f214fdf2.jpg?1542363868"
-        />
-        <h6 className="ml-2 mb-0">Taras Milguko</h6>
+      </CardImageContainer>
+      <Card.Footer className="d-flex align-items-center px-0 bg-transparent border-top-0">
+        <ProfileImage roundedCircle src={picture} />
+        <h6 className="ml-2 mb-0">{name}</h6>
         <div id="divider" className="flex-grow-1"></div>
         <ButtonGroup size="sm" className="bg-transparent">
           <ButtonAction variant="link" className="d-flex align-items-center">
@@ -84,10 +83,10 @@ export default function PostPreview({ ...restProps }) {
             variant="link"
             className="d-flex align-items-center pr-0"
           >
-            <HeartFill className="mr-1" /> 326
+            <HeartFill className="mr-1" /> {likes}
           </ButtonAction>
         </ButtonGroup>
-      </div>
-    </div>
+      </Card.Footer>
+    </Card>
   );
 }

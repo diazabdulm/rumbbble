@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { fetchUser } from "./reducers/authSlice";
 
 import Navigation from "./components/Navigation";
+import PrivateRoute from "./components/PrivateRoute";
 
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -23,7 +24,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Landing} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/projects/new" component={Upload} />
+        <PrivateRoute exact path="/projects/new" component={Upload} />
       </Switch>
     </BrowserRouter>
   );
