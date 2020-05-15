@@ -15,6 +15,7 @@ require("./services/passport");
 
 const authRouter = require("./routes/auth");
 const projectsRouter = require("./routes/projects");
+const commentsRouter = require("./routes/comments");
 
 app.use(bodyParser.json());
 app.use(
@@ -28,6 +29,7 @@ app.use(passport.session());
 
 app.use("/auth", authRouter);
 app.use("/posts", projectsRouter);
+app.use("/comments", commentsRouter);
 app.use("/uploads", express.static("uploads"));
 
 app.listen(process.env.PORT || 5000);

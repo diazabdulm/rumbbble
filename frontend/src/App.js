@@ -7,9 +7,10 @@ import { fetchUser } from "./reducers/authSlice";
 import Navigation from "./components/Navigation";
 import PrivateRoute from "./components/PrivateRoute";
 
-import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Upload from "./pages/Upload";
+import LandingPage from "./pages/Landing";
+import LoginPage from "./pages/Login";
+import ProjectPage from "./pages/Project";
+import UploadPage from "./pages/Upload";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,9 +23,10 @@ function App() {
     <BrowserRouter>
       <Navigation />
       <Switch>
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/login" component={Login} />
-        <PrivateRoute exact path="/projects/new" component={Upload} />
+        <Route exact path="/" component={LandingPage} />
+        <Route exact path="/login" component={LoginPage} />
+        <PrivateRoute exact path="/projects/new" component={UploadPage} />
+        <Route exact path="/projects/:projectId" component={ProjectPage} />
       </Switch>
     </BrowserRouter>
   );

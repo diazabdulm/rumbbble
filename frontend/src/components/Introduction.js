@@ -22,21 +22,6 @@ const IntroContainer = styled(Container)`
   }
 `;
 
-const IntroImage = styled(Image)`
-  /* @media (max-width: 576px) {
-    max-width: 100%;
-  }
-  @media (min-width: 576px) {
-    width: 400px;
-  }
-  @media (min-width: 768px) {
-    width: 450px;
-  }
-  @media (min-width: 1200px) {
-    width: 500px;
-  } */
-`;
-
 const CreditsText = styled.p`
   color: #9e9ea7;
 
@@ -52,7 +37,7 @@ export default function Introduction() {
         <Row className="align-items-center">
           <Col xs={10} md={8} lg={{ span: 5, order: 2 }} className="mx-auto">
             <div id="image-container" className="ml-md-5">
-              <IntroImage
+              <img
                 className="img-fluid"
                 src="https://cdn.dribbble.com/assets/art-banners/romainbriaux-9270a203743088cf36b939b04708d9a18fa794e04373964283a2d87c8f6fba0f.png"
                 alt="intro image"
