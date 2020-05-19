@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import { fetchProjects } from "./projectsSlice";
-
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -25,7 +23,6 @@ export const fetchUser = () => async (dispatch) => {
   try {
     const { data: user } = await axios.get("/auth/current-user");
     dispatch(setUserSuccess(user));
-    if (user) dispatch(fetchProjects());
   } catch (error) {
     dispatch(setUserFailure(error));
   }

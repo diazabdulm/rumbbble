@@ -11,6 +11,7 @@ import LandingPage from "./pages/Landing";
 import LoginPage from "./pages/Login";
 import ProjectPage from "./pages/Project";
 import UploadPage from "./pages/Upload";
+import EditPage from "./pages/Edit";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +28,11 @@ function App() {
         <Route exact path="/login" component={LoginPage} />
         <PrivateRoute exact path="/projects/new" component={UploadPage} />
         <Route exact path="/projects/:projectId" component={ProjectPage} />
+        <PrivateRoute
+          exact
+          path="/projects/:projectId/edit"
+          component={EditPage}
+        />
       </Switch>
     </BrowserRouter>
   );

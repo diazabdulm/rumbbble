@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import { ChatFill, HeartFill } from "react-bootstrap-icons";
+
+import useNumLikes from "../hooks/useNumLikes";
 
 const BORDER_RADIUS = 8;
 
@@ -55,35 +59,68 @@ const ProfileImage = styled(Image)`
 
 const ButtonAction = styled(Button)`
   color: #9e9ea7;
+
+  &:focus {
+    box-shadow: none;
+  }
 `;
 
 export default function PostPreview({
+  _id,
   title,
-  likes,
   author: { name, picture },
   image,
+  children,
 }) {
+  const numLikes = useNumLikes(_id);
+  const [numComments, setNumComments] = useState(0);
+
+  useEffect(() => {
+    const fetchCommentNumber = async () => {
+      const response = await axios.get(`/comments/${_id}/count`);
+      setNumComments(response.data);
+    };
+    fetchCommentNumber();
+  }, [_id, numComments]);
+
+  const handleClickLike = async () => {
+    try {
+      await axios.post(`likes/${_id}`);
+    } catch (error) {
+      throw Error(error);
+    }
+  };
+
   return (
     <Card className="border-0">
-      <CardImageContainer className="position-relative">
-        <CardImage className="img-fluid" variant="top" src={image} />
-        <CardOverlay className="d-flex align-items-end">
-          <Card.Title className="text-truncate text-white">{title}</Card.Title>
-        </CardOverlay>
-      </CardImageContainer>
+      <Link to={`/projects/${_id}`}>
+        <CardImageContainer className="position-relative">
+          <CardImage className="img-fluid" variant="top" src={image} />
+          <CardOverlay className="d-flex align-items-end">
+            <Card.Title className="text-truncate text-white">
+              {title}
+            </Card.Title>
+          </CardOverlay>
+        </CardImageContainer>
+      </Link>
       <Card.Footer className="d-flex align-items-center px-0 bg-transparent border-top-0">
         <ProfileImage roundedCircle src={picture} />
         <h6 className="ml-2 mb-0">{name}</h6>
         <div id="divider" className="flex-grow-1"></div>
         <ButtonGroup size="sm" className="bg-transparent">
-          <ButtonAction variant="link" className="d-flex align-items-center">
-            <ChatFill className="mr-1" /> 842
+          <ButtonAction
+            variant="link"
+            className="d-flex align-items-center"
+            href={`/projects/${_id}`}
+          >
+            <ChatFill className="mr-1" /> {numComments}
           </ButtonAction>
           <ButtonAction
             variant="link"
             className="d-flex align-items-center pr-0"
+            onClick={handleClickLike}
           >
-            <HeartFill className="mr-1" /> {likes}
+            <HeartFill className="mr-1" /> {numLikes}
           </ButtonAction>
         </ButtonGroup>
       </Card.Footer>

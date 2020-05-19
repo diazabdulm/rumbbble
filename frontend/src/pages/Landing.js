@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
 
 import { selectUser } from "../reducers/authSlice";
 
@@ -21,17 +20,21 @@ export default function LandingPage() {
   const [projectFeed, setProjectFeed] = useState([]);
 
   useEffect(() => {
+    let mounted = true;
     const fetchProjecFeed = async () => {
       const { data: feed } = await axios.get("/posts/all");
-      setProjectFeed(feed);
-      console.log("feed", feed);
+      if (mounted) setProjectFeed(feed);
     };
     fetchProjecFeed();
+    return () => (mounted = false);
   }, []);
 
   const renderPostPreviews = () =>
-    projectFeed.map(({ _id, ...restProps }) => (
-      <PostPreview key={_id} {...restProps} />
+    projectFeed.map((props) => (
+      <PostPreview key={props._id} {...props}>
+        <div>Hello</div>
+        <Introduction />
+      </PostPreview>
     ));
 
   return (

@@ -1,3 +1,4 @@
+const fs = require("fs");
 const projectsRouter = require("express").Router();
 const { model } = require("mongoose");
 const multer = require("multer");
@@ -30,7 +31,7 @@ const Comment = model("comments");
 
 projectsRouter.get("/all", async (request, response) => {
   const projects = await Post.find()
-    .populate("author", "name picture")
+    .populate("author", "name picture -_id")
     .limit(20)
     .sort({ _id: -1 })
     .exec();
@@ -58,17 +59,25 @@ projectsRouter.post(
 
 projectsRouter.get("/:projectId", async (request, response) => {
   const { projectId } = request.params;
-  const project = await Post.findById(projectId);
+  const project = await Post.findById(projectId).populate(
+    "author",
+    "_id name picture"
+  );
   response.send(project);
 });
 
-projectsRouter.post("/:projectId/comments", async (request, response) => {
-  try {
-    const newComment = await new Comment({});
+projectsRouter.patch("/:projectId", async (request, response) => {
+  const { projectId } = request.params;
+  await Post.updateOne({ _id: projectId }, { $set: { ...request.body } });
+  response.json({});
+});
 
-  } catch (error) {
-    throw Error(error);
-  }
+projectsRouter.delete("/:projectId", async (request, response) => {
+  const { projectId } = request.params;
+  const post = await Post.findByIdAndDelete(projectId);
+  await fs.unlinkSync(post.image);
+  await Comment.find({ post: projectId }).remove();
+  response.redirect("/");
 });
 
 module.exports = projectsRouter;

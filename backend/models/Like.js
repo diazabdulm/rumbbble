@@ -4,10 +4,12 @@ const Like = new Schema({
   post: {
     type: Schema.Types.ObjectId,
     ref: "posts",
+    required: true,
   },
   author: {
     type: Schema.Types.ObjectId,
     ref: "users",
+    required: true,
   },
 });
 

@@ -1,11 +1,13 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
+
+import useProject from "../hooks/useProject";
 
 const TopNavigationContainer = styled(Navbar)`
   background: #0d0c22;
@@ -20,30 +22,32 @@ const Logo = styled(Image)`
   height: auto;
 `;
 
-export default function UploadPage() {
+export default function EditPage() {
+  const { projectId } = useParams();
   const history = useHistory();
-  const [postImage, setPostImage] = useState();
-  const [postData, setPostData] = useState({
+  const projectData = useProject(projectId);
+  const [formData, setFormData] = useState({
     title: "",
     description: "",
     repoURL: "",
   });
 
+  const { title, description, repoURL } = formData;
+
+  useEffect(() => {
+    if (Object.keys(projectData).length === 0) return;
+    const { title, description, repoURL } = projectData;
+    setFormData({ title, description, repoURL });
+  }, [projectData]);
+
   const handleChange = ({ target: { name, value, files } }) =>
-    files
-      ? setPostImage(files[0])
-      : setPostData({ ...postData, [name]: value });
+    setFormData({ ...formData, [name]: value });
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-      const data = new FormData();
-      for (const entry in postData) {
-        data.append(entry, postData[entry]);
-      }
-      data.append("image", postImage);
-      await axios.post("/posts", data);
-      history.push("/");
+      await axios.patch(`/posts/${projectId}`, formData);
+      history.push(`/projects/${projectId}`);
     } catch (error) {
       throw Error(error);
     }
@@ -64,7 +68,7 @@ export default function UploadPage() {
   );
 
   const renderBottomNav = (
-    <Navbar fixed="bottom" className="border-top">
+    <Navbar sticky="bottom" className="border-top">
       <Container>
         <Button variant="outline-secondary">Cancel</Button>
       </Container>
@@ -74,16 +78,13 @@ export default function UploadPage() {
   return (
     <Fragment>
       {renderTopNav}
+      <p>Project Image</p>
+      <Image
+        fluid
+        src={`${window.location.origin}/${projectData.image}`}
+        alt=""
+      />
       <form onSubmit={handleSubmit} id="project-submission-form">
-        <label htmlFor="image">Project Image</label>
-        <input
-          id="image"
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-          required
-        />
         <label htmlFor="title">Title</label>
         <input
           id="title"
@@ -91,6 +92,7 @@ export default function UploadPage() {
           name="title"
           placeholder="Add a title"
           onChange={handleChange}
+          value={title}
           required
         />
         <label htmlFor="description">Description</label>
@@ -99,6 +101,8 @@ export default function UploadPage() {
           name="description"
           form="project-submission-form"
           onChange={handleChange}
+          value={description}
+          required
         ></textarea>
         <label htmlFor="repoURL">Repository URL</label>
         <input
@@ -106,9 +110,9 @@ export default function UploadPage() {
           type="text"
           name="repoURL"
           onChange={handleChange}
+          value={repoURL}
           required
         />
-        {/* TODO: Add a project URL(?) */}
         <button type="submit">Submit</button>
       </form>
       {renderBottomNav}

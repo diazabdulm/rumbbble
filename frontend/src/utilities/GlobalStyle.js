@@ -58,4 +58,12 @@ export const GlobalStyle = createGlobalStyle`
   .navbar {
     height: 80px;
   }
+
+  hr {
+    border-top: 2px solid #f3f3f4;
+  }
+
+  .font-weight-bold {
+    font-weight: 600!important;
+  }
 `;

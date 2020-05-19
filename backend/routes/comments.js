@@ -1,15 +1,32 @@
 const commentsRouter = require("express").Router();
-const { model } = require("mongoose");
+const Comment = require("mongoose").model("comments");
 
-const Comment = model("comments");
+const requireLogin = require("../middlewares/requireLogin");
 
-commentsRouter.post("/", async (request, response) => {
-  const { projectId, commentData } = request.body;
+commentsRouter.get("/:projectId", async (request, response) => {
+  const { projectId } = request.params;
+  const comments = await Comment.find({ post: projectId })
+    .populate("author", "name picture -_id")
+    .select("-post")
+    .exec();
+  response.send(comments);
+});
+
+commentsRouter.post("/:projectId", requireLogin, async (request, response) => {
+  const { projectId } = request.params;
+  const { formData } = request.body;
   const newComment = await new Comment({
     author: request.user.id,
     post: projectId,
-    content: commentData,
-  });
+    content: formData,
+  }).save();
+  response.send(newComment);
+});
+
+commentsRouter.get("/:projectId/count", async (request, response) => {
+  const { projectId } = request.params;
+  const numComments = await Comment.find({ post: projectId }).countDocuments();
+  response.send(numComments.toString());
 });
 
 module.exports = commentsRouter;

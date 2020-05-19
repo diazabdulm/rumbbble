@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Button from "react-bootstrap/Button";
-import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -40,11 +39,11 @@ export default function Introduction() {
               <img
                 className="img-fluid"
                 src="https://cdn.dribbble.com/assets/art-banners/romainbriaux-9270a203743088cf36b939b04708d9a18fa794e04373964283a2d87c8f6fba0f.png"
-                alt="intro image"
+                alt="intro"
               />
               <CreditsText className="text-center text-lg-right my-3">
                 Art by{" "}
-                <a href="https://dribbble.com/romainbriaux" target="_blank">
+                <a href="https://dribbble.com/romainbriaux">
                   <u>Romain Briaux</u>
                 </a>
               </CreditsText>

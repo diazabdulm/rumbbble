@@ -14,8 +14,10 @@ require("mongoose").connect(process.env.MONGO_URI);
 require("./services/passport");
 
 const authRouter = require("./routes/auth");
+const userRouter = require("./routes/user.js");
 const projectsRouter = require("./routes/projects");
 const commentsRouter = require("./routes/comments");
+const likesRouter = require("./routes/likes");
 
 app.use(bodyParser.json());
 app.use(
@@ -28,8 +30,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", authRouter);
+app.use("/user", userRouter);
 app.use("/posts", projectsRouter);
 app.use("/comments", commentsRouter);
+app.use("/likes", likesRouter);
 app.use("/uploads", express.static("uploads"));
 
 app.listen(process.env.PORT || 5000);
