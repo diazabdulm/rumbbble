@@ -79,7 +79,7 @@ projectsRouter.delete("/:projectId", async (request, response) => {
   await fs.unlinkSync(post.image);
   await Comment.find({ post: projectId }).remove();
   await Like.find({ post: projectId }).remove();
-  response.redirect("/");
+  response.json({});
 });
 
 module.exports = projectsRouter;
