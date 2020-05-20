@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 
 import { fetchUser } from "./reducers/authSlice";
 
-import Navigation from "./components/Navigation";
 import PrivateRoute from "./components/PrivateRoute";
 
 import LandingPage from "./pages/Landing";
@@ -22,7 +21,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navigation />
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/login" component={LoginPage} />

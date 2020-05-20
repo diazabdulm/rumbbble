@@ -28,6 +28,7 @@ const requireLogin = require("../middlewares/requireLogin");
 const Post = model("posts");
 const User = model("users");
 const Comment = model("comments");
+const Like = model("likes");
 
 projectsRouter.get("/all", async (request, response) => {
   const projects = await Post.find()
@@ -77,6 +78,7 @@ projectsRouter.delete("/:projectId", async (request, response) => {
   const post = await Post.findByIdAndDelete(projectId);
   await fs.unlinkSync(post.image);
   await Comment.find({ post: projectId }).remove();
+  await Like.find({ post: projectId }).remove();
   response.redirect("/");
 });
 

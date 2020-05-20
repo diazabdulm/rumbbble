@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 export default function CommentForm({ projectId }) {
   const [formData, setFormData] = useState("");
@@ -19,14 +21,19 @@ export default function CommentForm({ projectId }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea
-        name="comment"
-        id="comment"
-        onChange={handleChange}
-        value={formData}
-      ></textarea>
-      <button type="submit">Submit comment</button>
-    </form>
+    <Form onSubmit={handleSubmit}>
+      <Form.Group controlId="comment">
+        <Form.Label>Enter comment</Form.Label>
+        <Form.Control
+          as="textarea"
+          name="comment"
+          onChange={handleChange}
+          value={formData}
+        ></Form.Control>
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Submit comment
+      </Button>
+    </Form>
   );
 }

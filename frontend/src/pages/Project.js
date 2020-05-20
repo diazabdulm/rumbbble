@@ -10,30 +10,42 @@ import Image from "react-bootstrap/Image";
 import ListGroup from "react-bootstrap/ListGroup";
 import Media from "react-bootstrap/Media";
 import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import {
   CalendarFill,
   HeartFill,
   GearFill,
   TrashFill,
-  Link,
+  FileCode,
+  Eye,
 } from "react-bootstrap-icons";
 
 import CommentFeed from "../components/CommentFeed";
 import CommentForm from "../components/CommentForm";
+
+import withNavigation from "../hocs/withNavigation";
 
 import useNumLikes from "../hooks/useNumLikes";
 import useProject from "../hooks/useProject";
 
 import { selectUser } from "../reducers/authSlice";
 
-export default function ProjectPage() {
+function ProjectPage() {
   const { projectId } = useParams();
   const history = useHistory();
   const user = useSelector(selectUser);
   const projectData = useProject(projectId);
   const numLikes = useNumLikes(projectId);
 
-  const { author, title, description, createdAt, repoURL } = projectData;
+  const {
+    author,
+    title,
+    description,
+    createdAt,
+    repoURL,
+    demoURL,
+  } = projectData;
 
   const handleDelete = async () => {
     try {
@@ -51,7 +63,7 @@ export default function ProjectPage() {
   return (
     <Container>
       <Row>
-        <Col xs={12} className="pt-5">
+        <Col xs={12} md={10} className="mx-auto pt-5">
           <Media>
             <Image
               roundedCircle
@@ -72,42 +84,67 @@ export default function ProjectPage() {
             className="py-3 mx-auto"
             src={`${window.location.origin}/${projectData?.image}`}
           />
-        </Col>
-        <Col md={8}>
-          {description}
-          <hr />
-          <CommentFeed projectId={projectId} />
-          <CommentForm projectId={projectId} />
-        </Col>
-        <Col md={4} className="mb-4">
-          <Button block variant="light" href={repoURL} className="mb-4">
-            <Link className="mr-1" />
-            View Repository
-          </Button>
-          <ListGroup className="mb-4" variant="flush">
-            <ListGroup.Item>
-              <HeartFill className="mr-3" />
-              {numLikes} like{numLikes !== 1 ? "s" : ""}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <CalendarFill className="mr-3" />
-              {moment(createdAt).format("MMM D, YYYY")}
-            </ListGroup.Item>
-          </ListGroup>
-          {user?._id === author?._id && (
-            <ListGroup variant="flush">
-              <ListGroup.Item action href={`/projects/${projectId}/edit`}>
-                <GearFill className="mr-3" />
-                Edit
-              </ListGroup.Item>
-              <ListGroup.Item action onClick={handleDelete}>
-                <TrashFill className="mr-3" />
-                Delete
-              </ListGroup.Item>
-            </ListGroup>
-          )}
+          <Row>
+            <Col md={8}>
+              {description}
+              <hr />
+              <CommentFeed projectId={projectId} />
+              <CommentForm projectId={projectId} />
+            </Col>
+            <Col md={4} className="mb-4">
+              <ButtonToolbar
+                className="mb-3"
+                aria-label="Toolbar with button groups"
+              >
+                <ButtonGroup
+                  size="sm"
+                  className="mr-2 flex-grow-1"
+                  aria-label="First group"
+                >
+                  <Button variant="light" href={repoURL}>
+                    <Eye className="mr-2" size={15} />
+                    View Demo
+                  </Button>
+                </ButtonGroup>
+                <ButtonGroup
+                  size="sm"
+                  className="flex-grow-1"
+                  aria-label="Second group"
+                >
+                  <Button variant="light" href={demoURL}>
+                    <FileCode className="mr-2" size={15} />
+                    View Code
+                  </Button>
+                </ButtonGroup>
+              </ButtonToolbar>
+              <ListGroup className="mb-4" variant="flush">
+                <ListGroup.Item>
+                  <HeartFill className="mr-3" />
+                  {numLikes} like{numLikes !== 1 ? "s" : ""}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <CalendarFill className="mr-3" />
+                  {moment(createdAt).format("MMM D, YYYY")}
+                </ListGroup.Item>
+              </ListGroup>
+              {user?._id === author?._id && (
+                <ListGroup variant="flush">
+                  <ListGroup.Item action href={`/projects/${projectId}/edit`}>
+                    <GearFill className="mr-3" />
+                    Edit
+                  </ListGroup.Item>
+                  <ListGroup.Item action onClick={handleDelete}>
+                    <TrashFill className="mr-3" />
+                    Delete
+                  </ListGroup.Item>
+                </ListGroup>
+              )}
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>
   );
 }
+
+export default withNavigation(ProjectPage);

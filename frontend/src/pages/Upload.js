@@ -1,23 +1,19 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import bsCustomFileInput from "bs-custom-file-input";
+
+import Logo from "../components/Logo";
 
 const TopNavigationContainer = styled(Navbar)`
   background: #0d0c22;
-`;
-
-const LogoContainer = styled(Navbar.Brand)`
-  line-height: 0;
-`;
-
-const Logo = styled(Image)`
-  width: 6rem;
-  height: auto;
 `;
 
 export default function UploadPage() {
@@ -28,6 +24,11 @@ export default function UploadPage() {
     description: "",
     repoURL: "",
   });
+
+  useEffect(() => {
+    document.title = "What are you working on? | Rumbbble";
+    bsCustomFileInput.init();
+  }, []);
 
   const handleChange = ({ target: { name, value, files } }) =>
     files
@@ -51,10 +52,10 @@ export default function UploadPage() {
 
   const renderTopNav = (
     <TopNavigationContainer variant="dark">
-      <Container>
-        <LogoContainer href="/">
-          <Logo src={require("../assets/logo.png")} alt="logo" />
-        </LogoContainer>
+      <Container fluid>
+        <Navbar.Brand href="/">
+          <Logo color="#fff" />
+        </Navbar.Brand>
         <Navbar.Text className="font-weight-bold text-white mx-auto">
           Publish your Project
         </Navbar.Text>
@@ -65,8 +66,17 @@ export default function UploadPage() {
 
   const renderBottomNav = (
     <Navbar fixed="bottom" className="border-top">
-      <Container>
-        <Button variant="outline-secondary">Cancel</Button>
+      <Container fluid>
+        <Button
+          variant="outline-secondary mr-auto"
+          href="/"
+          className="d-none d-lg-block"
+        >
+          Cancel
+        </Button>
+        <Button variant="primary" href="/" className="ml-auto">
+          Publish to Rumbbble
+        </Button>
       </Container>
     </Navbar>
   );
@@ -74,43 +84,63 @@ export default function UploadPage() {
   return (
     <Fragment>
       {renderTopNav}
-      <form onSubmit={handleSubmit} id="project-submission-form">
-        <label htmlFor="image">Project Image</label>
-        <input
-          id="image"
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="title">Title</label>
-        <input
-          id="title"
-          type="text"
-          name="title"
-          placeholder="Add a title"
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          name="description"
-          form="project-submission-form"
-          onChange={handleChange}
-        ></textarea>
-        <label htmlFor="repoURL">Repository URL</label>
-        <input
-          id="repoURL"
-          type="text"
-          name="repoURL"
-          onChange={handleChange}
-          required
-        />
-        {/* TODO: Add a project URL(?) */}
-        <button type="submit">Submit</button>
-      </form>
+      <Container>
+        <Row>
+          <Form onSubmit={handleSubmit} id="project-submission-form">
+            <Form.Group controlId="image">
+              <Form.Label>Project Image</Form.Label>
+              <Form.File
+                custom
+                required
+                label="Project Image"
+                name="image"
+                accept="image/*"
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="title">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                required
+                name="title"
+                autoComplete="off"
+                placeholder="Add a title"
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="description">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                required
+                as="textarea"
+                name="description"
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="repoURL">
+              <Form.Label>Repository Link</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                name="repoURL"
+                autoComplete="off"
+                onChange={handleChange}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="demoURL">
+              <Form.Label>Demo Link</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                name="demoURL"
+                autoComplete="off"
+                onChange={handleChange}
+              ></Form.Control>
+            </Form.Group>
+            <Button type="submit">Submit</Button>
+          </Form>
+        </Row>
+      </Container>
       {renderBottomNav}
     </Fragment>
   );

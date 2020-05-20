@@ -33,7 +33,7 @@ export default function LoginPage() {
         <div className="col-lg-7 vh-100 d-flex">
           <LoginContainer className="">
             <Image
-              src={require("../assets/logo.png")}
+              // src={require("../assets/logo.png")}
               width="125"
               className="d-block d-lg-none d-xl-none mb-5"
             />

@@ -8,6 +8,8 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 
+import Logo from "./Logo";
+
 import { selectUser } from "../reducers/authSlice";
 
 const NavigationContainer = styled(Navbar)`
@@ -16,63 +18,46 @@ const NavigationContainer = styled(Navbar)`
   color: #6e6d7a;
 `;
 
-const Logo = styled(Image)`
-  width: 6rem;
-  height: auto;
-`;
-
-const LogoContainer = styled(Navbar.Brand)`
-  line-height: 0;
-`;
-
-const ProfileDropdownContainer = styled(NavDropdown)`
-  & .dropdown-toggle::after {
-    display: none;
-  }
-`;
-
 export default function Navigation() {
   const user = useSelector(selectUser);
+
+  const renderLoggedIn = (
+    <Fragment>
+      <NavDropdown
+        id="profile-dropdown"
+        title={
+          <Image src={user.picture} height="40" width="40" roundedCircle />
+        }
+      >
+        <NavDropdown.Item href="/auth/logout">Sign Out</NavDropdown.Item>
+      </NavDropdown>
+      <Button className="ml-2" variant="primary" href="/projects/new">
+        Upload
+      </Button>
+    </Fragment>
+  );
+
+  const renderLoggedOut = (
+    <Fragment>
+      <Nav.Link href="/login">Sign in</Nav.Link>
+      <Button
+        className="d-none d-lg-block d-xl-block ml-3"
+        variant="primary"
+        href="/login"
+      >
+        Sign up
+      </Button>
+    </Fragment>
+  );
+
   return (
     <NavigationContainer sticky="top">
       <Container>
-        <LogoContainer className="mr-auto" href="/">
-          <Logo src={require("../assets/logo.png")} alt="logo" />
-        </LogoContainer>
+        <Navbar.Brand className="mr-auto" href="/">
+          <Logo />
+        </Navbar.Brand>
         <Nav className="align-items-center">
-          {user ? (
-            <Fragment>
-              <ProfileDropdownContainer
-                title={
-                  <Image
-                    src={user.picture}
-                    height="40"
-                    width="40"
-                    roundedCircle
-                  />
-                }
-                id="profile-dropdown"
-              >
-                <NavDropdown.Item href="/auth/logout">
-                  Sign Out
-                </NavDropdown.Item>
-              </ProfileDropdownContainer>
-              <Button className="ml-2" variant="primary" href="/projects/new">
-                Upload
-              </Button>
-            </Fragment>
-          ) : (
-            <Fragment>
-              <Nav.Link href="/login">Sign in</Nav.Link>
-              <Button
-                className="d-none d-lg-block d-xl-block ml-3"
-                variant="primary"
-                href="/login"
-              >
-                Sign up
-              </Button>
-            </Fragment>
-          )}
+          {user ? renderLoggedIn : renderLoggedOut}
         </Nav>
       </Container>
     </NavigationContainer>

@@ -5,6 +5,7 @@ const Post = new Schema(
     title: String,
     description: String,
     repoURL: String,
+    demoURL: String,
     image: {
       type: String,
       required: true,

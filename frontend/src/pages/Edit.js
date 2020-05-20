@@ -57,7 +57,7 @@ export default function EditPage() {
     <TopNavigationContainer variant="dark">
       <Container>
         <LogoContainer href="/">
-          <Logo src={require("../assets/logo.png")} alt="logo" />
+          {/* <Logo src={require("../assets/logo.png")} alt="logo" /> */}
         </LogoContainer>
         <Navbar.Text className="font-weight-bold text-white mx-auto">
           Publish your Project
