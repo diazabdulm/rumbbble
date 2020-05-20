@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -86,59 +87,61 @@ export default function UploadPage() {
       {renderTopNav}
       <Container>
         <Row>
-          <Form onSubmit={handleSubmit} id="project-submission-form">
-            <Form.Group controlId="image">
-              <Form.Label>Project Image</Form.Label>
-              <Form.File
-                custom
-                required
-                label="Project Image"
-                name="image"
-                accept="image/*"
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="title">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                required
-                name="title"
-                autoComplete="off"
-                placeholder="Add a title"
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="description">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                required
-                as="textarea"
-                name="description"
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="repoURL">
-              <Form.Label>Repository Link</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                name="repoURL"
-                autoComplete="off"
-                onChange={handleChange}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group controlId="demoURL">
-              <Form.Label>Demo Link</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                name="demoURL"
-                autoComplete="off"
-                onChange={handleChange}
-              ></Form.Control>
-            </Form.Group>
-            <Button type="submit">Submit</Button>
-          </Form>
+          <Col md={8} className="mx-auto">
+            <Form onSubmit={handleSubmit} id="project-submission-form">
+              <Form.Group controlId="image">
+                <Form.Label>Project Image</Form.Label>
+                <Form.File
+                  custom
+                  required
+                  label="Project Image"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="title">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  required
+                  name="title"
+                  autoComplete="off"
+                  placeholder="Add a title"
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="description">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  required
+                  as="textarea"
+                  name="description"
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="repoURL">
+                <Form.Label>Repository Link</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  name="repoURL"
+                  autoComplete="off"
+                  onChange={handleChange}
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group controlId="demoURL">
+                <Form.Label>Demo Link</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  name="demoURL"
+                  autoComplete="off"
+                  onChange={handleChange}
+                ></Form.Control>
+              </Form.Group>
+              <Button type="submit">Submit</Button>
+            </Form>
+          </Col>
         </Row>
       </Container>
       {renderBottomNav}

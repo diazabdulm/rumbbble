@@ -28,7 +28,6 @@ export const GlobalStyle = createGlobalStyle`
     border: none;
     box-shadow: 0px 10px 50px rgba(0,0,0,0.1);
     padding: 30px 0;
-    width: 245px;
   }
 
   .dropdown-item {
