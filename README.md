@@ -10,6 +10,9 @@ Rumbbble is a website inspired by Dribble. A portal for developers to showcase t
 
 # Run the project locally
 npm run dev
+
+# Setup your environment variables
+cd backend && cp .env.sample .env
 ```
 
 ## Built With
