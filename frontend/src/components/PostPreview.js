@@ -72,20 +72,36 @@ export default function PostPreview({
   image,
   children,
 }) {
-  const numLikes = useNumLikes(_id);
+  const [numLikes, setNumLikes] = useState(0);
   const [numComments, setNumComments] = useState(0);
 
   useEffect(() => {
-    const fetchCommentNumber = async () => {
+    fetchLikeNumber();
+    fetchCommentNumber();
+  }, [_id]);
+
+  const fetchCommentNumber = async () => {
+    try {
       const response = await axios.get(`/comments/${_id}/count`);
       setNumComments(response.data);
-    };
-    fetchCommentNumber();
-  }, [_id, numComments]);
+    } catch (error) {
+      throw Error(error);
+    }
+  };
+
+  const fetchLikeNumber = async () => {
+    try {
+      const response = await axios.get(`/likes/${_id}/count`);
+      setNumLikes(response.data);
+    } catch (error) {
+      throw Error(error);
+    }
+  };
 
   const handleClickLike = async () => {
     try {
       await axios.post(`likes/${_id}`);
+      fetchLikeNumber();
     } catch (error) {
       throw Error(error);
     }
