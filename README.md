@@ -2,6 +2,16 @@
 
 Rumbbble is a website inspired by Dribble. A portal for developers to showcase their work to other developers, to get feedback.
 
+## Installation for Local Development
+
+```bash
+# Install the project dependencies
+./setup
+
+# Run the project locally
+npm run dev
+```
+
 ## Built With
 
 * [ReactJS](https://github.com/facebook/react) - is a JavaScript library for building user interfaces.
