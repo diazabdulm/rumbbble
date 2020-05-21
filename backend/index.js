@@ -1,9 +1,9 @@
-const app = require("express")();
+const express = require("express");
 const passport = require("passport");
 const session = require("cookie-session");
-const cors = require("cors");
+const bodyParser = require("body-parser");
 
-const authRouter = require("./routes/auth");
+const app = express();
 
 require("./models/User");
 require("./models/Post");
@@ -13,10 +13,13 @@ require("./models/Like");
 require("mongoose").connect(process.env.MONGO_URI);
 require("./services/passport");
 
-if (process.env.NODE_ENV === "development") {
-  app.use(cors());
-}
+const authRouter = require("./routes/auth");
+const userRouter = require("./routes/user.js");
+const projectsRouter = require("./routes/projects");
+const commentsRouter = require("./routes/comments");
+const likesRouter = require("./routes/likes");
 
+app.use(bodyParser.json());
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
@@ -27,5 +30,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", authRouter);
+app.use("/user", userRouter);
+app.use("/posts", projectsRouter);
+app.use("/comments", commentsRouter);
+app.use("/likes", likesRouter);
+app.use("/uploads", express.static("uploads"));
 
 app.listen(process.env.PORT || 5000);
