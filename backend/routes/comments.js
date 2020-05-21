@@ -14,11 +14,11 @@ commentsRouter.get("/:projectId", async (request, response) => {
 
 commentsRouter.post("/:projectId", requireLogin, async (request, response) => {
   const { projectId } = request.params;
-  const { formData } = request.body;
+  const { data } = request.body;
   const newComment = await new Comment({
     author: request.user.id,
     post: projectId,
-    content: formData,
+    content: data,
   }).save();
   response.send(newComment);
 });

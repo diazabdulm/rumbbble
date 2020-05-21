@@ -31,6 +31,11 @@ function LandingPage() {
     return () => (mounted = false);
   }, []);
 
+  useEffect(() => {
+    document.title =
+      "Rumbbble - Discover the World's Top Developers and Programming Enthusiasts";
+  }, []);
+
   const renderPostPreviews = () =>
     projectFeed.map((props) => (
       <PostPreview key={props._id} {...props}>

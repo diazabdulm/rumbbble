@@ -3,21 +3,14 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-export default function CommentForm({ projectId }) {
+export default function CommentForm({ projectId, submitComment }) {
   const [formData, setFormData] = useState("");
 
   const handleChange = ({ target: { value } }) => setFormData(value);
 
   const handleSubmit = async (event) => {
-    try {
-      event.preventDefault();
-      await axios.post(`/comments/${projectId}`, {
-        formData,
-      });
-      setFormData("");
-    } catch (error) {
-      throw Error(error);
-    }
+    event.preventDefault();
+    submitComment(formData);
   };
 
   return (

@@ -23,6 +23,7 @@ import {
 
 import CommentFeed from "../components/CommentFeed";
 import CommentForm from "../components/CommentForm";
+import CommentSection from "../components/CommentSection";
 
 import withNavigation from "../hocs/withNavigation";
 
@@ -88,8 +89,7 @@ function ProjectPage() {
             <Col md={8}>
               {description}
               <hr />
-              <CommentFeed projectId={projectId} />
-              <CommentForm projectId={projectId} />
+              <CommentSection projectId={projectId} />
             </Col>
             <Col md={4} className="mb-4">
               <ButtonToolbar
