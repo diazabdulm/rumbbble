@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+$theme-colors: (
+  "primary": #3a539b,
+  "blue": #3a539b,
+  // "secondary": #f3f3f4,
+);
+
+$enable-caret: false;
+$enable-responsive-font-sizes: true;
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";

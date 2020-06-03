@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import { ChatFill, HeartFill } from "react-bootstrap-icons";
+
+import useNumLikes from "../hooks/useNumLikes";
+
 const BORDER_RADIUS = 8;
 
 const CardOverlay = styled(Card.ImgOverlay)`
@@ -32,7 +37,7 @@ const CardOverlay = styled(Card.ImgOverlay)`
   );
 `;
 
-const CardContainer = styled(Card)`
+const CardImageContainer = styled.div`
   border-radius: ${BORDER_RADIUS}px;
 
   &:hover ${CardOverlay} {
@@ -42,6 +47,9 @@ const CardContainer = styled(Card)`
 
 const CardImage = styled(Card.Img)`
   border-radius: ${BORDER_RADIUS}px;
+  height: 18vw;
+  min-height: 270px;
+  object-fit: cover;
 `;
 
 const ProfileImage = styled(Image)`
@@ -51,42 +59,87 @@ const ProfileImage = styled(Image)`
 
 const ButtonAction = styled(Button)`
   color: #9e9ea7;
+
+  &:focus {
+    box-shadow: none;
+  }
 `;
 
-export default function PostPreview({ ...restProps }) {
+export default function PostPreview({
+  _id,
+  title,
+  author: { name, picture },
+  image,
+  children,
+}) {
+  const [numLikes, setNumLikes] = useState(0);
+  const [numComments, setNumComments] = useState(0);
+
+  useEffect(() => {
+    fetchLikeNumber();
+    fetchCommentNumber();
+  }, [_id]);
+
+  const fetchCommentNumber = async () => {
+    try {
+      const response = await axios.get(`/comments/${_id}/count`);
+      setNumComments(response.data);
+    } catch (error) {
+      throw Error(error);
+    }
+  };
+
+  const fetchLikeNumber = async () => {
+    try {
+      const response = await axios.get(`/likes/${_id}/count`);
+      setNumLikes(response.data);
+    } catch (error) {
+      throw Error(error);
+    }
+  };
+
+  const handleClickLike = async () => {
+    try {
+      await axios.post(`likes/${_id}`);
+      fetchLikeNumber();
+    } catch (error) {
+      throw Error(error);
+    }
+  };
+
   return (
-    <div>
-      <CardContainer className="border-0" {...restProps}>
-        <CardImage
-          className="img-fluid"
-          variant="top"
-          src="https://cdn.dribbble.com/users/674925/screenshots/11357243/media/fda65658bba91fc8e3b12da571dacb6a.png"
-        />
-        <CardOverlay className="d-flex align-items-end">
-          <Card.Title className="text-truncate text-white">
-            Webisomania
-          </Card.Title>
-        </CardOverlay>
-      </CardContainer>
-      <div id="attribution" className="d-flex align-items-center pt-2">
-        <ProfileImage
-          roundedCircle
-          src="https://cdn.dribbble.com/users/1998175/avatars/normal/af46ac7b92eb85f76f5a3fe4f214fdf2.jpg?1542363868"
-        />
-        <h6 className="ml-2 mb-0">Taras Milguko</h6>
+    <Card className="border-0">
+      <Link to={`/projects/${_id}`}>
+        <CardImageContainer className="position-relative">
+          <CardImage className="img-fluid" variant="top" src={image} />
+          <CardOverlay className="d-flex align-items-end">
+            <Card.Title className="text-truncate text-white">
+              {title}
+            </Card.Title>
+          </CardOverlay>
+        </CardImageContainer>
+      </Link>
+      <Card.Footer className="d-flex align-items-center px-0 bg-transparent border-top-0">
+        <ProfileImage roundedCircle src={picture} />
+        <h6 className="ml-2 mb-0">{name}</h6>
         <div id="divider" className="flex-grow-1"></div>
         <ButtonGroup size="sm" className="bg-transparent">
-          <ButtonAction variant="link" className="d-flex align-items-center">
-            <ChatFill className="mr-1" /> 842
+          <ButtonAction
+            variant="link"
+            className="d-flex align-items-center"
+            href={`/projects/${_id}`}
+          >
+            <ChatFill className="mr-1" /> {numComments}
           </ButtonAction>
           <ButtonAction
             variant="link"
             className="d-flex align-items-center pr-0"
+            onClick={handleClickLike}
           >
-            <HeartFill className="mr-1" /> 326
+            <HeartFill className="mr-1" /> {numLikes}
           </ButtonAction>
         </ButtonGroup>
-      </div>
-    </div>
+      </Card.Footer>
+    </Card>
   );
 }
