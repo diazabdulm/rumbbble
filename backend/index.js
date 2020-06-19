@@ -34,6 +34,5 @@ app.use("/user", userRouter);
 app.use("/posts", projectsRouter);
 app.use("/comments", commentsRouter);
 app.use("/likes", likesRouter);
-app.use("/uploads", express.static("uploads"));
 
 app.listen(process.env.PORT || 5000);

@@ -1,32 +1,12 @@
 const fs = require("fs");
 const projectsRouter = require("express").Router();
 const { model } = require("mongoose");
-const multer = require("multer");
 
-const storage = multer.diskStorage({
-  destination: (request, file, callback) => {
-    callback(null, "./uploads/");
-  },
-  filename: (request, file, callback) => {
-    callback(null, new Date().toISOString() + file.originalname);
-  },
-});
-const fileFilter = (request, file, callback) => {
-  const acceptedFileTypes = ["image/jpeg", "image/png"];
-  return acceptedFileTypes.includes(file.mimetype)
-    ? callback(null, true)
-    : callback(null, false);
-};
-const upload = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 1024 * 1024 * 5 },
-});
+const upload = require("../services/multer");
 
 const requireLogin = require("../middlewares/requireLogin");
 
 const Post = model("posts");
-const User = model("users");
 const Comment = model("comments");
 const Like = model("likes");
 
@@ -49,6 +29,7 @@ projectsRouter.post(
   requireLogin,
   upload.single("image"),
   async (request, response) => {
+    console.log(request.file);
     const newPost = await new Post({
       ...request.body,
       image: request.file.path,

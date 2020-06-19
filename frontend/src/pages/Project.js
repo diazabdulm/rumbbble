@@ -83,7 +83,7 @@ function ProjectPage() {
             fluid
             rounded
             className="py-3 mx-auto"
-            src={`${window.location.origin}/${projectData?.image}`}
+            src={projectData?.image}
           />
           <Row>
             <Col md={8}>
