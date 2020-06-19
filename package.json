@@ -4,7 +4,8 @@
   "description": "Dribbble Clone built with MongoDB, ExpressJS, React, and Node Technologies",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm start --prefix frontend\"",
+    "postinstall": "npm install --prefix backend && npm install --prefix frontend"
   },
   "repository": {
     "type": "git",
