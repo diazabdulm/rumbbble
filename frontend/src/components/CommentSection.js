@@ -34,7 +34,7 @@ export default function Comments({ projectId }) {
   return (
     feed && (
       <Fragment>
-        <CommentFeed feed={feed} hello="hi" />
+        <CommentFeed feed={feed} />
         <CommentForm submitComment={submitComment} />
       </Fragment>
     )

@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-export default function CommentForm({ projectId, submitComment }) {
+export default function CommentForm({ submitComment }) {
   const [formData, setFormData] = useState("");
 
   const handleChange = ({ target: { value } }) => setFormData(value);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
+
     submitComment(formData);
+    setFormData("");
   };
 
   return (

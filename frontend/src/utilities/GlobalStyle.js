@@ -9,7 +9,6 @@ export const GlobalStyle = createGlobalStyle`
   .btn {
     padding: 10px 16px;
     border-radius: 8px;
-    /* border: none; */
     font-weight: 500;
   }
 

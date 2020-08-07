@@ -1,33 +1,35 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 
 import CommentForm from "components/CommentForm";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 
 let component;
 
 beforeEach(() => {
-  component = shallow(<CommentForm />);
+  component = mount(<CommentForm submitComment={() => {}} />);
 });
 
 it("shows label, textarea, and submit button", () => {
-  expect(component.find(Form.Label)).toHaveLength(1);
-  expect(component.find(Form.Control)).toHaveLength(1);
-  expect(component.find(Button)).toHaveLength(1);
+  expect(component.find("label")).toHaveLength(1);
+  expect(component.find("textarea")).toHaveLength(1);
+  expect(component.find("button")).toHaveLength(1);
 });
 
 describe("textarea", () => {
   beforeEach(() => {
     component
-      .find(Form.Control)
+      .find("textarea")
       .simulate("change", { target: { value: "new comment" } });
-    console.log(component.find(Form.Control).text());
+    component.update();
   });
 
   it("has a textarea that can be typed into", () => {
-    // expect(component.find(Form.Control).text()).toEqual("new commentssss");
+    expect(component.find("textarea").prop("value")).toEqual("new comment");
   });
 
-  it("clears textarea on submit", () => {});
+  it("clears textarea on submit", () => {
+    component.find("form").simulate("submit");
+    component.update();
+    expect(component.find("textarea").prop("value")).toEqual("");
+  });
 });
